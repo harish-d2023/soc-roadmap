@@ -1,0 +1,1968 @@
+<style>
+  :root {
+    --nav-w: 240px;
+    /* Widened slightly for labels */
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .app {
+    display: flex;
+    min-height: 100vh;
+    font-family: var(--font-sans);
+  }
+
+  .sidebar {
+    width: var(--nav-w);
+    background: var(--color-background-secondary);
+    border-right: 0.5px solid var(--color-border-tertiary);
+    padding: 1.25rem 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    padding: 0 1rem 0.75rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-section {
+    margin-bottom: 0.25rem;
+  }
+
+  .nav-group-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    padding: 0.6rem 1rem 0.2rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.45rem 1rem;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .nav-item:hover {
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+  }
+
+  .nav-item.active {
+    color: var(--color-text-info);
+    background: var(--color-background-info);
+    border-left-color: #378ADD;
+    font-weight: 500;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .main {
+    flex: 1;
+    padding: 2rem 2.5rem;
+    overflow-y: auto;
+    max-width: 920px;
+  }
+
+  .page {
+    display: none;
+  }
+
+  .page.active {
+    display: block;
+  }
+
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-title {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .page-subtitle {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin: 2rem 0 1rem;
+  }
+
+  .card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card:hover {
+    border-color: var(--color-border-secondary);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    line-height: 1.4;
+  }
+
+  .card-body {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+  }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: var(--border-radius-md);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-green {
+    background: #EAF3DE;
+    color: #3B6D11;
+  }
+
+  .badge-amber {
+    background: #FAEEDA;
+    color: #854F0B;
+  }
+
+  .badge-red {
+    background: #FCEBEB;
+    color: #A32D2D;
+  }
+
+  .badge-blue {
+    background: #E6F1FB;
+    color: #185FA5;
+  }
+
+  .badge-purple {
+    background: #EEEDFE;
+    color: #3C3489;
+  }
+
+  .badge-teal {
+    background: #E1F5EE;
+    color: #0F6E56;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .badge-green {
+      background: #27500A;
+      color: #C0DD97;
+    }
+
+    .badge-amber {
+      background: #633806;
+      color: #FAC775;
+    }
+
+    .badge-red {
+      background: #791F1F;
+      color: #F7C1C1;
+    }
+
+    .badge-blue {
+      background: #0C447C;
+      color: #B5D4F4;
+    }
+
+    .badge-purple {
+      background: #3C3489;
+      color: #CECBF6;
+    }
+
+    .badge-teal {
+      background: #085041;
+      color: #9FE1CB;
+    }
+  }
+
+  .tool-pill {
+    display: inline-block;
+    font-size: 12px;
+    padding: 2px 8px;
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text-secondary);
+    margin: 2px;
+  }
+
+  .outcome-block {
+    background: var(--color-background-secondary);
+    border-left: 2px solid #378ADD;
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+    padding: 0.75rem 1rem;
+    margin-top: 0.75rem;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .phase-strip {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .phase-card {
+    flex: 1;
+    min-width: 120px;
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .phase-card:hover {
+    border-color: var(--color-border-secondary);
+  }
+
+  .phase-num {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .phase-name {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tool-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tool-card:hover {
+    border-color: var(--color-border-secondary);
+    transform: translateY(-1px);
+  }
+
+  .tool-icon {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .tool-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .tool-tag {
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    margin-top: 2px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 0.5px solid var(--color-border-tertiary);
+    margin: 1.5rem 0;
+  }
+
+  .lab-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 500;
+    flex-shrink: 0;
+    background: var(--color-background-secondary);
+    color: var(--color-text-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+  }
+
+  .expand-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-tertiary);
+    font-size: 13px;
+    padding: 0;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .expand-btn:hover {
+    color: var(--color-text-secondary);
+  }
+
+  .expandable {
+    display: none;
+    margin-top: 0.75rem;
+  }
+
+  .expandable.open {
+    display: block;
+  }
+
+  .progress-bar-wrap {
+    background: var(--color-background-secondary);
+    border-radius: 999px;
+    height: 4px;
+    margin-top: 6px;
+  }
+
+  .progress-bar {
+    height: 4px;
+    border-radius: 999px;
+    background: #378ADD;
+  }
+
+  .home-hero {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    border: 0.5px solid var(--color-border-tertiary);
+  }
+
+  .hero-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-sub {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 0.75rem 1rem;
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .stat-num {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .stat-lbl {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-top: 2px;
+  }
+
+  .checklist {
+    list-style: none;
+  }
+
+  .checklist li {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    padding: 0.35rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  .check-icon {
+    color: #1D9E75;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .cert-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cert-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .cert-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .cert-desc {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+
+  .nav-tag {
+    font-size: 9px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .tag-core {
+    background: #378ADD;
+    color: white;
+  }
+
+  .tag-elective {
+    background: var(--color-background-tertiary);
+    color: var(--color-text-tertiary);
+  }
+
+  .lab-meta {
+    margin: 10px 0;
+    padding: 10px;
+    background: var(--color-background-secondary);
+    border-radius: 6px;
+    font-size: 12px;
+  }
+
+  .meta-item {
+    margin-bottom: 4px;
+    display: flex;
+    gap: 6px;
+  }
+
+  .meta-label {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    min-width: 90px;
+  }
+
+  .meta-val {
+    color: var(--color-text-secondary);
+  }
+</style>
+
+<div class="app">
+  <nav class="sidebar">
+    <div class="sidebar-title">SOC L1 Roadmap v2.0</div>
+
+    <div class="nav-section">
+      <div class="nav-item active" onclick="show('home', this)">
+        <span class="dot" style="background:#378ADD"></span> Overview
+      </div>
+    </div>
+
+    <div class="nav-group-label">Foundation</div>
+    <div class="nav-item" onclick="show('homelab', this)"><span class="dot" style="background:#1D9E75"></span> Home Lab
+      Setup</div>
+    <div class="nav-item" onclick="show('fundamentals', this)"><span class="dot" style="background:#1D9E75"></span> Core
+      Fundamentals</div>
+
+    <div class="nav-group-label">SIEM Tools <span>(Core/Elective)</span></div>
+    <div class="nav-item" onclick="show('splunk', this)">
+      <span class="dot" style="background:#D85A30"></span> Splunk <span class="nav-tag tag-core">Core</span>
+    </div>
+    <div class="nav-item" onclick="show('sentinel', this)">
+      <span class="dot" style="background:#D85A30"></span> Sentinel <span class="nav-tag tag-core">Core</span>
+    </div>
+    <div class="nav-item" onclick="show('wazuh', this)">
+      <span class="dot" style="background:#D85A30"></span> Wazuh <span class="nav-tag tag-elective">Elective</span>
+    </div>
+    <div class="nav-item" onclick="show('elk', this)">
+      <span class="dot" style="background:#D85A30"></span> ELK Stack <span class="nav-tag tag-elective">Elective</span>
+    </div>
+    <div class="nav-item" onclick="show('qradar', this)">
+      <span class="dot" style="background:#D85A30"></span> IBM QRadar <span class="nav-tag tag-elective">Elective</span>
+    </div>
+
+    <div class="nav-group-label">Detection & Operations</div>
+    <div class="nav-item" onclick="show('socops', this)"><span class="dot" style="background:#7F77DD"></span> SOC
+      Operations</div>
+    <div class="nav-item" onclick="show('edr', this)"><span class="dot" style="background:#7F77DD"></span> EDR / XDR
+    </div>
+    <div class="nav-item" onclick="show('network', this)"><span class="dot" style="background:#7F77DD"></span> Network &
+      API</div>
+    <div class="nav-item" onclick="show('incident', this)"><span class="dot" style="background:#7F77DD"></span> Incident
+      Response</div>
+
+    <div class="nav-group-label">Career</div>
+    <div class="nav-item" onclick="show('certs', this)"><span class="dot" style="background:#BA7517"></span>
+      Certifications</div>
+    <div class="nav-item" onclick="show('portfolio', this)"><span class="dot" style="background:#BA7517"></span>
+      Portfolio & Job Prep</div>
+  </nav>
+
+  <main class="main">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="home-hero">
+        <div class="hero-title">SOC Analyst L1 — Complete Career Roadmap v2.0</div>
+        <div class="hero-sub">A structured, operational path from enthusiast to hired professional. This v2.0 update
+          includes API security, shift handovers, and clear lab success criteria.</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num">5</div>
+          <div class="stat-lbl">SIEM Platforms</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">40+</div>
+          <div class="stat-lbl">Hands-on Labs</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3</div>
+          <div class="stat-lbl">Lab Tiers</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">7</div>
+          <div class="stat-lbl">Skill Domains</div>
+        </div>
+      </div>
+
+
+      <div class="section-label">Strategic Learning Path</div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">Core vs. Elective Mastery</div>
+        <div style="font-size:14px; color:var(--color-text-secondary); line-height:1.6">
+          To be job-ready, you do not need to master 5 SIEMs. Focus your energy on the <strong>Core</strong> tools
+          (Splunk & Sentinel) as they represent ~70% of the enterprise market. Use <strong>Elective</strong> tools
+          (Wazuh/ELK) to understand the underlying data engineering and open-source workflows.
+        </div>
+      </div>
+
+      <div class="section-label">Roadmap Phases</div>
+      <div class="phase-strip">
+        <div class="phase-card" onclick="show('homelab', document.querySelector('[onclick*=homelab]'))">
+          <div class="phase-num" style="color:#1D9E75">01</div>
+          <div class="phase-name">Build Your Lab</div>
+        </div>
+        <div class="phase-card" onclick="show('fundamentals', document.querySelector('[onclick*=fundamentals]'))">
+          <div class="phase-num" style="color:#1D9E75">02</div>
+          <div class="phase-name">Core Fundamentals</div>
+        </div>
+        <div class="phase-card" onclick="show('splunk', document.querySelector('[onclick*=splunk]'))">
+          <div class="phase-num" style="color:#D85A30">03</div>
+          <div class="phase-name">SIEM Mastery</div>
+        </div>
+        <div class="phase-card" onclick="show('edr', document.querySelector('[onclick*=edr]'))">
+          <div class="phase-num" style="color:#7F77DD">04</div>
+          <div class="phase-name">Detection & Response</div>
+        </div>
+        <div class="phase-card" onclick="show('certs', document.querySelector('[onclick*=certs]'))">
+          <div class="phase-num" style="color:#BA7517">05</div>
+          <div class="phase-name">Certifications</div>
+        </div>
+        <div class="phase-card" onclick="show('portfolio', document.querySelector('[onclick*=portfolio]'))">
+          <div class="phase-num" style="color:#BA7517">06</div>
+          <div class="phase-name">Job Ready</div>
+        </div>
+      </div>
+
+      <div class="section-label">How to Use This Roadmap</div>
+      <div class="card">
+        <div class="card-body">Each section in the sidebar corresponds to a skill domain. Within every SIEM or tool
+          section, labs are organized from <strong style="font-weight:500">Beginner → Intermediate → Advanced</strong>.
+          You do not need to complete every lab before moving forward — aim for depth in at least two SIEM tools and
+          breadth across the rest. The Home Lab section is your prerequisite for all other labs. Start there, then
+          follow the numbered phases above in order.</div>
+      </div>
+    </div>
+
+    <!-- HOME LAB -->
+    <div class="page" id="page-homelab">
+      <div class="page-header">
+        <div class="page-title">Home Lab Setup</div>
+        <div class="page-subtitle">Your home lab is your proving ground. Three tiers exist — Basic, Intermediate, and
+          Advanced — each building on the last. You don't need expensive hardware; a modern laptop with 16 GB RAM is
+          sufficient for Tier 1 and 2.</div>
+      </div>
+
+      <div class="section-label">Tier 1 — Basic Lab (Start Here)</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Single-Machine Virtualization Lab</div>
+          <span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Set up a virtualization environment on your personal computer to host multiple operating
+          systems simultaneously. This forms the backbone of all future labs.
+          <div class="tag-row">
+            <span class="tool-pill">VirtualBox or VMware Workstation Player</span>
+            <span class="tool-pill">Kali Linux ISO</span>
+            <span class="tool-pill">Ubuntu Server ISO</span>
+            <span class="tool-pill">Windows 10/11 ISO</span>
+          </div>
+          <div class="outcome-block">You learn to create, snapshot, and manage virtual machines. You'll understand NAT
+            vs. Host-Only vs. Bridged networking, which is essential for isolating attack simulations safely.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Log Generation & Collection Baseline</div>
+          <span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Configure your VMs to generate and forward system logs (Windows Event Logs, syslog) to a
+          central collection point — the very foundation of how SIEM tools work.
+          <div class="tag-row">
+            <span class="tool-pill">Windows Event Viewer</span>
+            <span class="tool-pill">Syslog-ng or rsyslog</span>
+            <span class="tool-pill">Winlogbeat</span>
+            <span class="tool-pill">Notepad++ (log inspection)</span>
+          </div>
+          <div class="outcome-block">You gain a working understanding of log sources, log formats (JSON, XML, CEF), and
+            how data flows from endpoints to a collector — the mental model that makes SIEM work intuitive.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Tier 2 — Intermediate Lab</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Multi-VM Attack-Defend Network</div>
+          <span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Build a small internal network with an attacker machine (Kali), a Windows victim, and a
+          Linux server. Simulate basic attacks and observe the logs they generate — the core SOC analyst workflow.
+          <div class="tag-row">
+            <span class="tool-pill">Kali Linux (attacker)</span>
+            <span class="tool-pill">Metasploitable 2 or DVWA</span>
+            <span class="tool-pill">pfSense (virtual firewall)</span>
+            <span class="tool-pill">Wireshark</span>
+            <span class="tool-pill">Nmap</span>
+          </div>
+          <div class="outcome-block">You experience alert generation from the defender's perspective — watching how an
+            Nmap scan, a brute-force attempt, or a web exploit appears in logs. This builds the intuition that separates
+            a skilled analyst from a tool operator.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">SIEM Integration Lab</div>
+          <span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Deploy a lightweight SIEM (Wazuh or ELK) within your Tier 2 lab and connect your
+          attack-defend machines to it. Run simulated attacks and observe alerts inside the SIEM dashboard.
+          <div class="tag-row">
+            <span class="tool-pill">Wazuh Server</span>
+            <span class="tool-pill">Wazuh Agent (on Windows/Linux VMs)</span>
+            <span class="tool-pill">Filebeat</span>
+            <span class="tool-pill">Elastic Kibana</span>
+          </div>
+          <div class="outcome-block">You'll correlate raw logs with SIEM-generated alerts for the first time — a
+            milestone moment. You develop the mental map of "what happened on the endpoint" vs. "what the SIEM tells me
+            happened."</div>
+        </div>
+      </div>
+
+      <div class="section-label">Tier 3 — Advanced Lab</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Full SOC Simulation Environment</div>
+          <span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Build a production-like SOC environment with a full SIEM, ticketing system, threat
+          intelligence feeds, and simulated corporate network using multiple VLANs. This mirrors what you'll encounter
+          on the job.
+          <div class="tag-row">
+            <span class="tool-pill">Proxmox VE (bare-metal hypervisor)</span>
+            <span class="tool-pill">Splunk Free (or Wazuh)</span>
+            <span class="tool-pill">TheHive (ticketing / case management)</span>
+            <span class="tool-pill">MISP (threat intel)</span>
+            <span class="tool-pill">Suricata (IDS/IPS)</span>
+            <span class="tool-pill">Active Directory (Windows Server)</span>
+            <span class="tool-pill">Atomic Red Team</span>
+          </div>
+          <div class="outcome-block">You can now simulate enterprise attack scenarios end-to-end — from initial
+            compromise to detection, alert triage, ticket creation, escalation, and containment. This lab is your
+            portfolio centerpiece and your interview story.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Purple Team & Threat Hunting Lab</div>
+          <span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Extend the Tier 3 lab with purple teaming capabilities — you play both attacker and
+          defender, using attack simulation frameworks to generate realistic threats and then hunt for them proactively
+          in your SIEM.
+          <div class="tag-row">
+            <span class="tool-pill">Caldera (MITRE ATT&CK automation)</span>
+            <span class="tool-pill">Atomic Red Team</span>
+            <span class="tool-pill">MITRE ATT&CK Navigator</span>
+            <span class="tool-pill">Sigma Rules</span>
+            <span class="tool-pill">Splunk or ELK</span>
+          </div>
+          <div class="outcome-block">You learn to map attacker TTPs to MITRE ATT&CK, write detection rules, and validate
+            them against real simulated attack data. This is the skill that gets L1 analysts promoted to L2.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FUNDAMENTALS -->
+    <div class="page" id="page-fundamentals">
+      <div class="page-header">
+        <div class="page-title">Core Fundamentals</div>
+        <div class="page-subtitle">Before touching any SIEM, you need a bedrock of networking, operating systems, and
+          security concepts. These aren't optional prerequisites — they're what lets you understand WHY alerts fire, not
+          just that they fired.</div>
+      </div>
+
+      <div class="section-label">Networking Essentials</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Packet Analysis Basics with Wireshark</div><span
+            class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Capture and analyze live and sample network traffic. Learn to read TCP handshakes, HTTP
+          requests, DNS lookups, and identify suspicious patterns in PCAP files.
+          <div class="tag-row"><span class="tool-pill">Wireshark</span><span class="tool-pill">Sample PCAP files
+              (Malware Traffic Analysis)</span></div>
+          <div class="outcome-block">You can dissect a packet capture and identify communication patterns, anomalies,
+            and potential indicators of compromise — a daily SOC skill.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Network Protocol Deep Dive</div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Study and simulate traffic for protocols that appear most in SOC alerts: DNS (tunneling),
+          HTTP/S (C2 beaconing), SMB (lateral movement), and ICMP (reconnaissance). Understand what normal looks like so
+          you can spot abnormal.
+          <div class="tag-row"><span class="tool-pill">Wireshark</span><span class="tool-pill">tcpdump</span><span
+              class="tool-pill">Nmap</span><span class="tool-pill">Scapy (Python)</span></div>
+          <div class="outcome-block">You develop a mental baseline for what "healthy" network traffic looks like — the
+            single most valuable skill for reducing false positive alert fatigue.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Operating System Fundamentals</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Windows Event Log Investigation</div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Navigate Windows Event Viewer and identify the most security-relevant Event IDs: 4624
+          (logon), 4625 (failed logon), 4688 (process creation), 4663 (file access), 7045 (service install). Understand
+          what each tells you.
+          <div class="tag-row"><span class="tool-pill">Windows VM</span><span class="tool-pill">Event Viewer</span><span
+              class="tool-pill">Get-WinEvent (PowerShell)</span></div>
+          <div class="outcome-block">You can read and interpret Windows event logs without a SIEM — the raw material
+            behind most endpoint alerts you'll triage.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Linux System Hardening & Log Review</div><span
+            class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Explore Linux log files (/var/log/auth.log, syslog, audit.log), understand PAM
+          authentication logs, cron job abuse, and sudo privilege escalation patterns. Practice basic hardening steps.
+          <div class="tag-row"><span class="tool-pill">Ubuntu Server VM</span><span class="tool-pill">auditd</span><span
+              class="tool-pill">grep / awk / sed</span></div>
+          <div class="outcome-block">You become comfortable with Linux CLI log analysis — critical since most servers in
+            enterprise environments run Linux and generate the bulk of infrastructure logs in a SIEM.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Security Concepts</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">MITRE ATT&CK Framework Navigation</div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Learn to navigate the ATT&CK matrix. For a given technique (e.g., T1059 — Command and
+          Scripting Interpreter), identify detection opportunities, relevant data sources, and real-world threat actor
+          usage.
+          <div class="tag-row"><span class="tool-pill">MITRE ATT&CK Navigator (web)</span><span
+              class="tool-pill">attack.mitre.org</span></div>
+          <div class="outcome-block">You can map an alert or suspicious event to an ATT&CK technique, understand its
+            place in an attack chain, and know what to look for next — the basis of threat-informed defense.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Indicators of Compromise (IOC) Analysis</div><span
+            class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Learn to identify, enrich, and pivot on IOCs — malicious IPs, domains, file hashes, and
+          URLs — using open-source threat intelligence platforms. Practice the analyst workflow of receiving an alert
+          and enriching it with context.
+          <div class="tag-row"><span class="tool-pill">VirusTotal</span><span class="tool-pill">AbuseIPDB</span><span
+              class="tool-pill">Shodan</span><span class="tool-pill">MISP</span><span class="tool-pill">AlienVault
+              OTX</span></div>
+          <div class="outcome-block">You can take a raw IOC from an alert (e.g., an IP address) and within minutes
+            determine whether it's malicious, which threat actors use it, and what action to recommend — core L1 triage
+            competency.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPLUNK -->
+    <div class="page" id="page-splunk">
+      <div class="page-header">
+        <div class="page-title">Splunk Labs</div>
+        <div class="page-subtitle">Splunk is the most widely deployed commercial SIEM and a top hiring requirement
+          globally. Mastering it from installation through advanced SPL querying makes you immediately productive on day
+          one of any SOC job.</div>
+      </div>
+
+      <div class="section-label">Beginner</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">1</div>
+            <div class="card-title">Setting Up Your First Splunk Instance</div>
+          </div>
+          <span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Install Splunk Enterprise (free tier) on a Linux or Windows VM, walk through the initial
+          configuration wizard, and familiarize yourself with the web interface.
+          <div class="tag-row"><span class="tool-pill">Splunk Enterprise (free license)</span><span
+              class="tool-pill">Ubuntu Server VM</span><span class="tool-pill">Sample log files (Splunk tutorial
+              data)</span></div>
+          <div class="outcome-block">You can navigate the Splunk interface, understand the indexer/search head/forwarder
+            architecture, and ingest your first dataset.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">2</div>
+            <div class="card-title">Ingesting and Indexing Log Sources</div>
+          </div>
+          <span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Configure Splunk Universal Forwarder on a Windows VM to forward Windows Event Logs and
+          Sysmon data to your Splunk instance. Create a custom index and sourcetype.
+          <div class="tag-row"><span class="tool-pill">Splunk Universal Forwarder</span><span class="tool-pill">Sysmon
+              (with SwiftOnSecurity config)</span><span class="tool-pill">Windows VM</span></div>
+          <div class="outcome-block">You understand data onboarding — the process of getting log sources into Splunk — a
+            task you'll do in every real SOC deployment.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">3</div>
+            <div class="card-title">SPL Fundamentals — Your First Searches</div>
+          </div>
+          <span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Learn Splunk Processing Language (SPL) essentials: search, table, stats, sort, dedup,
+          rex, and eval. Query ingested Windows logs to find failed logins and process creation events.
+          <div class="tag-row"><span class="tool-pill">Splunk (with ingested data)</span><span class="tool-pill">Splunk
+              SPL documentation</span></div>
+          <div class="outcome-block">You can write basic SPL queries to answer investigative questions — "how many
+            failed logins occurred in the last hour and from which IPs?"</div>
+        </div>
+      </div>
+
+      <div class="section-label">Intermediate</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">4</div>
+            <div class="card-title">Building Security Dashboards</div>
+          </div>
+          <span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Create a SOC operations dashboard with panels for failed logins over time, top source
+          IPs, process creation by user, and geographic access maps using iplocation.
+          <div class="tag-row"><span class="tool-pill">Splunk Enterprise</span><span class="tool-pill">Sysmon
+              data</span><span class="tool-pill">Windows Security Event Logs</span></div>
+          <div class="outcome-block">You can build the kind of dashboards that SOC teams use at shift start to get
+            situational awareness — a visible, portfolio-worthy deliverable.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">5</div>
+            <div class="card-title">Correlation Searches & Alert Creation</div>
+          </div>
+          <span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Write saved searches that detect brute-force login attempts, impossible travel scenarios,
+          and lateral movement (multiple logons from a single account across different hosts in a short time window).
+          Configure email or webhook alerting.
+          <div class="tag-row"><span class="tool-pill">Splunk Enterprise</span><span class="tool-pill">Windows/Linux
+              logs</span><span class="tool-pill">Transaction command</span></div>
+          <div class="outcome-block">You understand how SIEM correlation works beneath the surface — building detection
+            logic yourself gives you insight that purely GUI-driven analysts never gain.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">6</div>
+            <div class="card-title">Investigating a Simulated Phishing Attack</div>
+          </div>
+          <span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Using a pre-built PCAP and associated endpoint logs from a simulated spear-phishing
+          attack, work through the full analyst workflow: identify the initial email, the malicious attachment
+          execution, C2 callback, and lateral movement — all within Splunk.
+          <div class="tag-row"><span class="tool-pill">Splunk</span><span class="tool-pill">Sysmon logs</span><span
+              class="tool-pill">Sample phishing attack dataset (BOTS)</span><span class="tool-pill">Wireshark</span>
+          </div>
+          <div class="outcome-block">You complete your first end-to-end alert investigation using a SIEM, producing a
+            timeline of the attack — the artifact an L1 analyst delivers to L2 during escalation.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Advanced</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">7</div>
+            <div class="card-title">Splunk ES (Enterprise Security) Exploration</div>
+          </div>
+          <span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Install and explore Splunk ES with the Common Information Model (CIM). Use the Risk-Based
+          Alerting (RBA) framework to reduce alert fatigue by assigning risk scores to systems and users rather than
+          firing individual alerts.
+          <div class="tag-row"><span class="tool-pill">Splunk Enterprise Security (trial)</span><span
+              class="tool-pill">CIM Add-on</span><span class="tool-pill">Splunk Attack Range</span></div>
+          <div class="outcome-block">You understand how production SOC teams manage alert volume — the single biggest
+            operational challenge in a real SOC. RBA knowledge is a differentiator at the L1 level.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">8</div>
+            <div class="card-title">BOTS (Boss of the SOC) CTF Challenge</div>
+          </div>
+          <span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Complete Splunk's Boss of the SOC dataset — a rich, realistic attack dataset covering
+          ransomware, web exploitation, credential theft, and exfiltration scenarios. Answer investigation questions as
+          if you were an on-call analyst.
+          <div class="tag-row"><span class="tool-pill">Splunk BOTS Dataset (free download)</span><span
+              class="tool-pill">Splunk Enterprise</span><span class="tool-pill">BOTS investigation guide</span></div>
+          <div class="outcome-block">You build comprehensive Splunk investigation experience across multiple attack
+            types. BOTS completion is a recognized credential in the Splunk community and a strong portfolio item.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WAZUH -->
+    <div class="page" id="page-wazuh">
+      <div class="page-header">
+        <div class="page-title">Wazuh Labs</div>
+        <div class="page-subtitle">Wazuh is the leading open-source SIEM and XDR platform, widely used by mid-market and
+          enterprise organizations — and the best free platform for building deep hands-on skills at home. It combines
+          SIEM, EDR, and compliance monitoring in one stack.</div>
+      </div>
+
+      <div class="section-label">Beginner</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">1</div>
+            <div class="card-title">Deploying Wazuh Server and First Agent</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Install the Wazuh all-in-one stack (Wazuh manager, indexer, and dashboard) and enroll a
+          Windows and Linux agent. Explore the default dashboards and understand the agent-manager architecture.
+          <div class="tag-row"><span class="tool-pill">Wazuh OVA (pre-built VM)</span><span class="tool-pill">Wazuh
+              Agent (Windows + Ubuntu)</span><span class="tool-pill">8 GB RAM minimum</span></div>
+          <div class="outcome-block">You have a fully functional open-source SIEM running in your home lab — no license
+            cost, full enterprise-grade visibility.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">2</div>
+            <div class="card-title">File Integrity Monitoring (FIM) in Action</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Configure Wazuh's FIM module to monitor critical directories (Windows System32, Linux
+          /etc). Intentionally modify monitored files and observe the alerts generated in the Wazuh dashboard.
+          <div class="tag-row"><span class="tool-pill">Wazuh Manager</span><span class="tool-pill">ossec.conf (FIM
+              configuration)</span><span class="tool-pill">Windows + Linux agent VMs</span></div>
+          <div class="outcome-block">You understand one of the most common detection mechanisms in enterprise
+            environments and can configure it — a practical skill hiring managers test for.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Intermediate</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">3</div>
+            <div class="card-title">Custom Detection Rules in Wazuh</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Write custom Wazuh detection rules in XML to detect specific scenarios: repeated sudo
+          failures, new cron jobs added, and PowerShell execution from a non-admin account. Test each rule by triggering
+          the condition.
+          <div class="tag-row"><span class="tool-pill">Wazuh Manager</span><span class="tool-pill">Custom rules
+              directory</span><span class="tool-pill">wazuh-logtest utility</span></div>
+          <div class="outcome-block">You understand detection engineering at the rule level — writing the logic that
+            generates alerts rather than just consuming them. This is a highly valued skill even at L1.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">4</div>
+            <div class="card-title">Vulnerability Assessment with Wazuh</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Enable Wazuh's vulnerability detection module to scan enrolled agents against CVE
+          databases. Identify unpatched packages on a deliberately outdated Ubuntu VM and understand CVE severity
+          scoring.
+          <div class="tag-row"><span class="tool-pill">Wazuh Vulnerability Detector module</span><span
+              class="tool-pill">Ubuntu VM (older package versions)</span><span class="tool-pill">NVD CVE database</span>
+          </div>
+          <div class="outcome-block">You can perform asset-level vulnerability assessments using your SIEM — going
+            beyond detection into risk management, a common L1 duty in smaller SOC teams.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">5</div>
+            <div class="card-title">Simulated Brute-Force Detection & Active Response</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Run an SSH brute-force attack from Kali against a monitored Ubuntu agent. Observe Wazuh's
+          default rules fire, then configure Active Response to automatically block the attacking IP using iptables
+          after a threshold.
+          <div class="tag-row"><span class="tool-pill">Kali Linux (hydra)</span><span class="tool-pill">Ubuntu VM (SSH
+              target)</span><span class="tool-pill">Wazuh Active Response module</span></div>
+          <div class="outcome-block">You witness automated SOAR-like response in action — where detection and
+            containment happen without human intervention. This bridges SIEM and SOAR concepts practically.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Advanced</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">6</div>
+            <div class="card-title">Integrating Wazuh with MISP Threat Intelligence</div>
+          </div><span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Connect Wazuh to a local MISP instance to enrich alerts with threat intelligence context.
+          Configure indicators from MISP to automatically trigger Wazuh alerts when matched in agent logs.
+          <div class="tag-row"><span class="tool-pill">Wazuh Manager</span><span class="tool-pill">MISP (local
+              VM)</span><span class="tool-pill">Python integration scripts</span><span class="tool-pill">Wazuh
+              API</span></div>
+          <div class="outcome-block">You understand threat intelligence integration — how a SIEM becomes context-aware
+            and can automatically recognize known-bad indicators without manual lookup every time.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ELK -->
+    <div class="page" id="page-elk">
+      <div class="page-header">
+        <div class="page-title">ELK Stack Labs</div>
+        <div class="page-subtitle">The ELK Stack (Elasticsearch, Logstash, Kibana) — now called the Elastic Stack — is
+          the open-source foundation under many enterprise SIEM products, including Wazuh and IBM QRadar Insights.
+          Understanding ELK gives you transferable skills across the entire Elastic ecosystem.</div>
+      </div>
+
+      <div class="section-label">Beginner</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">1</div>
+            <div class="card-title">Deploying the ELK Stack from Scratch</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Install Elasticsearch, Logstash, and Kibana on an Ubuntu Server VM. Understand how each
+          component works: Elasticsearch as a data store, Logstash as a pipeline, and Kibana as the visualization layer.
+          <div class="tag-row"><span class="tool-pill">Elasticsearch 8.x</span><span
+              class="tool-pill">Logstash</span><span class="tool-pill">Kibana</span><span class="tool-pill">Ubuntu
+              Server VM (8 GB RAM)</span></div>
+          <div class="outcome-block">You understand the ELK architecture deeply — knowledge that transfers to Wazuh,
+            Elastic SIEM, and any Elastic-based product you encounter professionally.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">2</div>
+            <div class="card-title">Log Ingestion with Filebeat and Winlogbeat</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Configure Filebeat on a Linux VM and Winlogbeat on a Windows VM to ship logs into
+          Elasticsearch. Use pre-built dashboards in Kibana to explore the incoming data.
+          <div class="tag-row"><span class="tool-pill">Filebeat</span><span class="tool-pill">Winlogbeat</span><span
+              class="tool-pill">Kibana dashboards</span><span class="tool-pill">Windows + Linux VMs</span></div>
+          <div class="outcome-block">You understand the Beat agent ecosystem and how lightweight shippers feed data into
+            Elastic — a pattern used across many enterprise deployments.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Intermediate</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">3</div>
+            <div class="card-title">Logstash Pipeline Engineering</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Write Logstash pipeline configurations with grok patterns to parse unstructured log
+          formats (Apache access logs, custom application logs) into structured fields that Elasticsearch can index and
+          Kibana can visualize.
+          <div class="tag-row"><span class="tool-pill">Logstash</span><span class="tool-pill">Grok Debugger (Kibana
+              built-in)</span><span class="tool-pill">Sample Apache logs</span></div>
+          <div class="outcome-block">You can take any raw log format and turn it into structured, searchable data — a
+            practical data engineering skill that SOC engineers use constantly.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">4</div>
+            <div class="card-title">Elastic Security — SIEM View and Detection Rules</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Enable the Elastic Security app in Kibana. Import Elastic's prebuilt detection rules
+          (covering MITRE ATT&CK techniques), trigger test attacks using Atomic Red Team, and triage the resulting
+          alerts using the Cases workflow.
+          <div class="tag-row"><span class="tool-pill">Elastic Security (Kibana app)</span><span
+              class="tool-pill">Elastic prebuilt detection rules</span><span class="tool-pill">Atomic Red
+              Team</span><span class="tool-pill">Sysmon</span></div>
+          <div class="outcome-block">You use the ELK stack as a full security operations platform — experiencing the
+            analyst workflow of triage, investigation, and case management that mirrors what many MSSPs use in
+            production.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Advanced</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">5</div>
+            <div class="card-title">Building a Custom Threat Hunting Dashboard</div>
+          </div><span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Using EQL (Event Query Language) and KQL (Kibana Query Language), build a threat hunting
+          dashboard that surfaces anomalous behaviors: rare parent-child process combinations, encoded PowerShell, and
+          unusual network connections at unusual hours.
+          <div class="tag-row"><span class="tool-pill">Elastic Security</span><span class="tool-pill">EQL
+              Engine</span><span class="tool-pill">Sysmon + Winlogbeat data</span><span class="tool-pill">Kibana
+              visualizations</span></div>
+          <div class="outcome-block">You can proactively hunt for threats in a large dataset using purpose-built queries
+            — transitioning from reactive (alert triage) to proactive (threat hunting), a skill that defines elite L1/L2
+            analysts.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QRADAR -->
+    <div class="page" id="page-qradar">
+      <div class="page-header">
+        <div class="page-title">IBM QRadar Labs</div>
+        <div class="page-subtitle">QRadar is deeply embedded in large enterprises, banking, government, and critical
+          infrastructure. It uses a unique offense-based model that groups related events into high-confidence incidents
+          — very different from alert-by-alert SIEM models. Learning QRadar expands your enterprise employability
+          significantly.</div>
+      </div>
+
+      <div class="section-label">Beginner</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">1</div>
+            <div class="card-title">QRadar Community Edition — Setup and Navigation</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Download and deploy IBM QRadar Community Edition (free, 50 EPS limit). Navigate the key
+          tabs: Dashboard, Offenses, Log Activity, Network Activity, and Assets. Understand the QRadar flow data model
+          vs. log-based SIEMs.
+          <div class="tag-row"><span class="tool-pill">QRadar Community Edition (OVA)</span><span class="tool-pill">14
+              GB RAM recommended</span><span class="tool-pill">QRadar documentation (IBM Docs)</span></div>
+          <div class="outcome-block">You understand QRadar's core architecture — the event pipeline, flow processor, and
+            offense engine — and can orient yourself in its interface without feeling lost.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">2</div>
+            <div class="card-title">Log Source Integration and DSM Configuration</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Configure QRadar to receive syslog events from a Linux VM and Windows events via
+          WinCollect. Explore Device Support Module (DSM) parsing and how QRadar normalizes events from different
+          sources into a common taxonomy.
+          <div class="tag-row"><span class="tool-pill">QRadar CE</span><span class="tool-pill">WinCollect
+              Agent</span><span class="tool-pill">Linux syslog VM</span><span class="tool-pill">QRadar DSM Editor</span>
+          </div>
+          <div class="outcome-block">You understand event normalization — how QRadar makes sense of varied log formats —
+            and can onboard new log sources, a frequent task in enterprise SOC deployments.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Intermediate</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">3</div>
+            <div class="card-title">Working with Offenses — Triage and Investigation</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Use the QRadar Offense tab to triage auto-generated offenses. For each offense, identify
+          the contributing events, pivot to raw logs, map to MITRE ATT&CK, and practice writing offense notes — exactly
+          as you'd do in an L1 shift.
+          <div class="tag-row"><span class="tool-pill">QRadar CE with sample data</span><span class="tool-pill">IBM
+              QRadar SIEM Use Cases guide</span><span class="tool-pill">ATT&CK Navigator</span></div>
+          <div class="outcome-block">You can triage a QRadar offense confidently — understanding what triggered it, what
+            events support it, and whether to close, escalate, or investigate further.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">4</div>
+            <div class="card-title">AQL Queries for Custom Investigations</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Learn AQL (Ariel Query Language), QRadar's SQL-like query interface. Write queries
+          against both event and flow data to answer investigative questions: who logged in from an unusual country,
+          which internal hosts initiated external connections on port 443 at odd hours.
+          <div class="tag-row"><span class="tool-pill">QRadar Log Activity tab</span><span class="tool-pill">QRadar AQL
+              reference guide</span><span class="tool-pill">QRadar CE with ingested data</span></div>
+          <div class="outcome-block">You can move beyond prebuilt rules and conduct custom investigations with AQL — the
+            QRadar equivalent of SPL in Splunk and EQL in Elastic.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Advanced</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">5</div>
+            <div class="card-title">Building Custom Correlation Rules and Use Cases</div>
+          </div><span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Build custom correlation rules in QRadar's rule engine to detect a multi-stage attack:
+          reconnaissance → initial access → privilege escalation, using event sequences across multiple log sources.
+          Test rule logic with simulated events.
+          <div class="tag-row"><span class="tool-pill">QRadar Rules Engine (offense rules, event rules)</span><span
+              class="tool-pill">Building Blocks</span><span class="tool-pill">Reference Sets</span><span
+              class="tool-pill">Sample attack data</span></div>
+          <div class="outcome-block">You understand QRadar's correlation logic at the engineering level — building
+            multi-step detection rules with chained conditions. This is advanced SIEM engineering practiced even at
+            senior L2/L3 levels, and sets you far apart as an L1.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SENTINEL -->
+    <div class="page" id="page-sentinel">
+      <div class="page-header">
+        <div class="page-title">Microsoft Sentinel Labs</div>
+        <div class="page-subtitle">Microsoft Sentinel is the fastest-growing SIEM in enterprises that run Microsoft 365
+          and Azure. Its deep native integration with the Microsoft security stack makes it dominant in hybrid and
+          cloud-first organizations. If your target employers use Azure, Sentinel experience is essential.</div>
+      </div>
+
+      <div class="section-label">Beginner</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">1</div>
+            <div class="card-title">Sentinel Workspace Setup on Azure Free Tier</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Create an Azure free account, provision a Log Analytics Workspace, and enable Microsoft
+          Sentinel on top of it. Connect the Azure Activity Log as your first data connector and explore the Sentinel
+          interface.
+          <div class="tag-row"><span class="tool-pill">Azure Free Tier account</span><span class="tool-pill">Log
+              Analytics Workspace</span><span class="tool-pill">Microsoft Sentinel</span><span class="tool-pill">Azure
+              Portal</span></div>
+          <div class="outcome-block">You have a real cloud-native SIEM running in the actual production platform — not a
+            simulation. Every Sentinel skill you build here is directly transferable to the workplace.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">2</div>
+            <div class="card-title">Connecting Data Sources via Connectors</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Use Sentinel's data connector hub to connect Microsoft 365 Defender, Azure AD Sign-In
+          Logs, and a Linux Syslog VM using the Azure Monitor Agent. Explore the tables these sources populate in KQL.
+          <div class="tag-row"><span class="tool-pill">Sentinel Data Connectors</span><span class="tool-pill">Azure
+              Monitor Agent</span><span class="tool-pill">Microsoft 365 developer tenant (free)</span></div>
+          <div class="outcome-block">You understand Sentinel's connector-based data ingestion model and how different
+            Microsoft and third-party sources feed into a unified workspace — the first step in every real Sentinel
+            deployment.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Intermediate</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">3</div>
+            <div class="card-title">KQL for Security Investigations</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Learn Kusto Query Language (KQL) with a focus on security use cases: querying SignInLogs
+          for failed MFA attempts, searching SecurityEvent for privilege escalation, and joining tables to correlate
+          network and identity events.
+          <div class="tag-row"><span class="tool-pill">Sentinel Log Analytics workspace</span><span
+              class="tool-pill">KQL documentation (Microsoft Docs)</span><span class="tool-pill">MustLearnKQL GitHub
+              repository</span></div>
+          <div class="outcome-block">You can write KQL confidently — an immediately marketable skill given the massive
+            adoption of Sentinel and Defender across the Microsoft ecosystem.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">4</div>
+            <div class="card-title">Incident Triage and Investigation in Sentinel</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Enable Microsoft Sentinel's built-in Analytics Rules. Trigger them using simulated events
+          (password spray, impossible travel, admin account access from new location). Triage the resulting incidents,
+          use the Investigation Graph to visualize entity relationships, and add incident comments.
+          <div class="tag-row"><span class="tool-pill">Sentinel Analytics Rules</span><span class="tool-pill">Sentinel
+              Investigation Graph</span><span class="tool-pill">Microsoft 365 test tenant</span></div>
+          <div class="outcome-block">You experience the full Sentinel analyst workflow — from alert to incident,
+            investigation graph to entity timeline, analyst comment to closure — exactly what L1 analysts do on shift.
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Advanced</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">5</div>
+            <div class="card-title">Automation with Playbooks and Logic Apps</div>
+          </div><span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Build a Sentinel Automation Playbook (Azure Logic App) that automatically enriches
+          incidents with VirusTotal lookups, sends a Teams notification to the SOC channel, and blocks a user in Azure
+          AD if a severity threshold is met.
+          <div class="tag-row"><span class="tool-pill">Sentinel Automation (SOAR)</span><span class="tool-pill">Azure
+              Logic Apps</span><span class="tool-pill">VirusTotal API (free tier)</span><span
+              class="tool-pill">Microsoft Teams</span></div>
+          <div class="outcome-block">You understand SOAR integration and can build basic automated response workflows —
+            a skill that makes you valuable in cloud-first SOC teams where manual triage at scale is unsustainable.
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">6</div>
+            <div class="card-title">Custom KQL Detection Rules and Threat Hunting Workbooks</div>
+          </div><span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Write custom Sentinel Analytics Rules in KQL to detect Living-Off-The-Land techniques:
+          LOLBins abuse, scheduled task persistence, and registry run key modifications. Build a Workbook to visualize
+          hunting results.
+          <div class="tag-row"><span class="tool-pill">Sentinel Custom Analytics Rules</span><span
+              class="tool-pill">Sentinel Workbooks</span><span class="tool-pill">Sysmon data (forwarded via
+              AMA)</span><span class="tool-pill">Sigma-to-KQL converter</span></div>
+          <div class="outcome-block">You can write production-grade KQL detection content and present hunting results in
+            a stakeholder-ready format — a portfolio piece that speaks directly to Sentinel-heavy employers.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- SOC OPERATIONS -->
+    <div class="page" id="page-socops">
+      <div class="page-header">
+        <div class="page-title">SOC Operations & Workflow</div>
+        <div class="page-subtitle">Working in a SOC is about more than just finding threats; it's about the "Operational
+          Rhythm"—ticketing, communication, and handovers.</div>
+      </div>
+
+      <div class="section-label">Operational Realism Labs</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Lab: The Shift Handover Report</div>
+          <span class="badge badge-green">Essentials</span>
+        </div>
+        <div class="card-body">
+          <div class="lab-meta">
+            <div class="meta-item"><span class="meta-label">Prerequisites:</span> Completion of any SIEM investigation
+              lab.</div>
+            <div class="meta-item"><span class="meta-label">Deliverable:</span> A formal "End of Shift" document for the
+              incoming analyst.</div>
+            <div class="meta-item"><span class="meta-label">Success Criteria:</span> Must summarize 3 active incidents,
+              list pending tasks, and flag high-priority threats needing immediate attention.</div>
+          </div>
+          <div class="outcome-block">Teaches you to communicate complex technical states concisely, ensuring no critical
+            alerts are missed during rotation.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Lab: Ticketing & Case Management Workflow</div>
+          <span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">
+          <div class="lab-meta">
+            <div class="meta-item"><span class="meta-label">Prerequisites:</span> Basic understanding of TheHive or
+              Jira.</div>
+            <div class="meta-item"><span class="meta-label">Deliverable:</span> A documented ticket lifecycle from "New"
+              to "Escalated" or "Resolved."</div>
+            <div class="meta-item"><span class="meta-label">Success Criteria:</span> Ticket must include Tagging, IOC
+              enrichment, and an Analyst Note that follows the IRIS or VERIS framework.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Crisis & Soft Skills</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Tabletop Exercise (TTX): The Bridge Call</div>
+          <span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">
+          <div style="font-size:14px; color:var(--color-text-secondary); margin-bottom:12px">
+            Record a 3-minute video or audio clip explaining a "Critical Ransomware Outbreak" to a non-technical
+            manager.
+          </div>
+          <ul class="checklist">
+            <li><span class="check-icon">✓</span> Avoid deep technical jargon (use business impact instead).</li>
+            <li><span class="check-icon">✓</span> Clearly state the current status and the "Ask" (e.g., "We need to
+              isolate the Finance VLAN").</li>
+            <li><span class="check-icon">✓</span> Provide a timeline for the next update.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDR/XDR -->
+    <div class="page" id="page-edr">
+      <div class="page-header">
+        <div class="page-title">EDR & XDR Labs</div>
+        <div class="page-subtitle">Endpoint Detection and Response (EDR) tools are what generate the most actionable
+          telemetry in a modern SOC. Extended Detection and Response (XDR) correlates across endpoint, network,
+          identity, and cloud. As an L1 analyst, you'll spend a significant portion of your shift inside these tools.
+        </div>
+      </div>
+
+      <div class="section-label">Beginner — Microsoft Defender for Endpoint</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">1</div>
+            <div class="card-title">Exploring MDE Alert Queue and Device Timeline</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Using a Microsoft 365 Defender evaluation tenant (free 30-day trial), onboard a Windows
+          VM. Trigger sample alerts using EICAR test files and simulated attack scripts. Explore the alert queue, device
+          timeline, and process tree.
+          <div class="tag-row"><span class="tool-pill">Microsoft 365 Defender (eval tenant)</span><span
+              class="tool-pill">Windows 10/11 VM</span><span class="tool-pill">EICAR test file</span><span
+              class="tool-pill">Microsoft Attack Simulator</span></div>
+          <div class="outcome-block">You understand the EDR analyst interface — navigating alert queues, reading device
+            timelines, and understanding the process tree that shows how a threat originated and spread.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Intermediate — EDR Investigation</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">2</div>
+            <div class="card-title">Advanced Hunting with KQL in MDE</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Use Microsoft Defender's Advanced Hunting feature to write KQL queries against
+          DeviceProcessEvents, DeviceNetworkEvents, and DeviceFileEvents. Hunt for persistence mechanisms and unusual
+          command-line patterns.
+          <div class="tag-row"><span class="tool-pill">MDE Advanced Hunting</span><span class="tool-pill">Microsoft 365
+              Defender portal</span><span class="tool-pill">GitHub: MDE KQL hunting queries</span></div>
+          <div class="outcome-block">You can proactively hunt for threats across endpoint telemetry using structured
+            queries — bridging EDR and threat hunting in a single workflow.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">3</div>
+            <div class="card-title">Velociraptor Open-Source EDR Lab</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Deploy Velociraptor server and enroll Linux and Windows agents. Run built-in VQL
+          (Velociraptor Query Language) hunts for persistence mechanisms, suspicious processes, and prefetch artifacts
+          across multiple endpoints simultaneously.
+          <div class="tag-row"><span class="tool-pill">Velociraptor Server (Linux)</span><span
+              class="tool-pill">Velociraptor Agent (Windows + Linux)</span><span class="tool-pill">VQL
+              documentation</span></div>
+          <div class="outcome-block">You understand open-source DFIR and endpoint hunting tooling — valuable because
+            many mid-market SOCs use Velociraptor or similar tools alongside commercial EDR.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Advanced — XDR</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">4</div>
+            <div class="card-title">Cross-Domain Attack Investigation with Microsoft XDR</div>
+          </div><span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Using a Microsoft 365 Defender tenant with Defender for Identity and Defender for Office
+          365 enabled, simulate a Business Email Compromise (BEC) chain: phishing email → credential theft → mailbox
+          access → lateral movement. Trace it end-to-end in the unified M365 Defender incident view.
+          <div class="tag-row"><span class="tool-pill">Microsoft 365 Defender (XDR)</span><span
+              class="tool-pill">Defender for Identity</span><span class="tool-pill">Defender for Office 365</span><span
+              class="tool-pill">Microsoft Attack Simulator</span></div>
+          <div class="outcome-block">You experience XDR's core value proposition — a single incident spanning email,
+            identity, and endpoint that would require correlating three separate tools without it. This is exactly the
+            scenario L1 analysts escalate to L2.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NETWORK MONITORING -->
+    <div class="page" id="page-network">
+      <div class="page-header">
+        <div class="page-title">Network & API Monitoring</div>
+        <div class="page-subtitle">Analyzing traffic flow across the wire, with a new focus on modern API-driven
+          architectures.</div>
+      </div>
+
+      <div class="section-label">Network Fundamentals</div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">1</div>
+            <div class="card-title">Suricata IDS Deployment and Rule Writing</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Install Suricata as a network IDS on a Linux VM placed inline in your virtual network.
+          Enable the Emerging Threats ruleset, generate test traffic (Nmap scan, simulated CVE exploit), and review the
+          alert log.
+          <div class="tag-row"><span class="tool-pill">Suricata IDS</span><span class="tool-pill">Emerging Threats
+              ruleset</span><span class="tool-pill">pfSense or OPNsense</span><span class="tool-pill">Kali Linux (attack
+              source)</span></div>
+          <div class="outcome-block">You understand signature-based network detection and can interpret Suricata alerts
+            — the network security equivalent of EDR detections. Suricata feeds are a standard SIEM input source.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">2</div>
+            <div class="card-title">Network Baseline and Anomaly Detection with Zeek</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Deploy Zeek (formerly Bro) and capture network metadata — DNS queries, HTTP requests, SSL
+          certificates, and connection logs — without storing full packet captures. Analyze conn.log, http.log, and
+          dns.log to identify anomalous behavior.
+          <div class="tag-row"><span class="tool-pill">Zeek</span><span class="tool-pill">JQ (JSON log
+              processing)</span><span class="tool-pill">Rita (threat hunting on Zeek logs)</span></div>
+          <div class="outcome-block">You gain network forensic skills beyond Wireshark — Zeek logs are ingested by
+            Splunk, ELK, and Wazuh in production environments and are invaluable for detecting beaconing and
+            exfiltration.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">3</div>
+            <div class="card-title">DNS Tunneling Detection Lab</div>
+          </div><span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">Simulate DNS tunneling using Iodine or DNScat2 from a Kali VM through a custom DNS
+          server. Capture the traffic in Wireshark and Zeek. Write detection rules in Suricata or Splunk to identify the
+          tunnel based on high query volume and entropy patterns.
+          <div class="tag-row"><span class="tool-pill">Iodine or DNScat2</span><span class="tool-pill">Zeek</span><span
+              class="tool-pill">Wireshark</span><span class="tool-pill">Splunk or Suricata</span></div>
+          <div class="outcome-block">You understand a sophisticated exfiltration technique and how to detect it — a
+            tangible, specific example that demonstrates advanced analyst thinking in interviews.</div>
+        </div>
+      </div>
+
+
+      <div class="section-label">Modern Attack Surfaces</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Lab: API Security & WAF Monitoring</div>
+          <span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">
+          <div class="lab-meta">
+            <div class="meta-item"><span class="meta-label">Prerequisites:</span> Knowledge of HTTP methods (GET, POST,
+              PUT).</div>
+            <div class="meta-item"><span class="meta-label">Deliverable:</span> A Splunk/Wazuh dashboard showing "Top 5
+              Suspicious API Endpoints."</div>
+            <div class="meta-item"><span class="meta-label">Success Criteria:</span> Successfully identify a "Broken
+              Object Level Authorization" (BOLA) attempt or a Credential Stuffing attack in the logs.</div>
+          </div>
+          <div class="tag-row">
+            <span class="tool-pill">OWASP Juice Shop (API target)</span>
+            <span class="tool-pill">WAF Logs</span>
+            <span class="tool-pill">Postman</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INCIDENT RESPONSE -->
+    <div class="page" id="page-incident">
+      <div class="page-header">
+        <div class="page-title">Incident Response Labs</div>
+        <div class="page-subtitle">Incident response is the primary output of an L1 analyst's work. You detect, triage,
+          document, and escalate. These labs simulate that workflow end-to-end — from the moment an alert fires to the
+          moment a ticket is closed or escalated.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">1</div>
+            <div class="card-title">IR Playbook Execution — Phishing Investigation</div>
+          </div><span class="badge badge-green">Beginner</span>
+        </div>
+        <div class="card-body">Follow a structured phishing IR playbook: analyze a suspicious email (headers, links,
+          attachments), check IOCs against VirusTotal and URLScan, identify affected users, and document findings in
+          TheHive or a simple ticket template.
+          <div class="tag-row"><span class="tool-pill">Email analysis tools (MXToolbox, PhishTool)</span><span
+              class="tool-pill">VirusTotal</span><span class="tool-pill">URLScan.io</span><span
+              class="tool-pill">TheHive (optional)</span></div>
+          <div class="outcome-block">You complete a full L1 analyst workflow for the most common incident type. You
+            produce a structured incident report — the deliverable that demonstrates analytical thinking to hiring
+            managers.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">2</div>
+            <div class="card-title">Ransomware Simulation — Detection to Containment</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Using a controlled sandbox (FlareVM or Any.Run), analyze ransomware behavior: file
+          extension changes, shadow copy deletion, rapid file writes, and C2 callback patterns. Identify which SIEM/EDR
+          alerts would fire and what containment actions to take.
+          <div class="tag-row"><span class="tool-pill">FlareVM or Any.Run sandbox</span><span class="tool-pill">SIEM of
+              choice</span><span class="tool-pill">Splunk or Wazuh</span><span class="tool-pill">ProcMon</span></div>
+          <div class="outcome-block">You understand ransomware kill chains from a defender's perspective — knowing what
+            to look for in the 15 minutes before encryption completes is the skill that can save an organization.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">3</div>
+            <div class="card-title">Insider Threat Scenario Investigation</div>
+          </div><span class="badge badge-amber">Intermediate</span>
+        </div>
+        <div class="card-body">Analyze a crafted dataset simulating an insider threat: a user downloading unusually
+          large files, accessing systems outside their normal working hours, and emailing data to a personal account.
+          Correlate DLP, UEBA, and authentication logs in your SIEM to build a behavioral timeline.
+          <div class="tag-row"><span class="tool-pill">Splunk or Wazuh SIEM</span><span class="tool-pill">Sample UEBA
+              dataset</span><span class="tool-pill">DLP log samples</span></div>
+          <div class="outcome-block">You practice behavioral analysis — moving beyond IOC-based detection into user
+            behavior analytics (UEBA), a growing expectation for L1 analysts in mature SOC environments.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="lab-num">4</div>
+            <div class="card-title">Full Incident Report Writing</div>
+          </div><span class="badge badge-red">Advanced</span>
+        </div>
+        <div class="card-body">After completing any advanced lab investigation, write a formal incident report covering:
+          executive summary, timeline of events, systems affected, attacker TTPs mapped to MITRE ATT&CK, containment
+          actions taken, and recommendations. Aim for clarity readable by non-technical stakeholders.
+          <div class="tag-row"><span class="tool-pill">Markdown or Word template</span><span class="tool-pill">MITRE
+              ATT&CK Navigator</span><span class="tool-pill">Any investigation dataset</span></div>
+          <div class="outcome-block">You produce polished documentation that mirrors what L1 analysts deliver to L2 and
+            management — arguably the most important soft skill in a SOC role, and a direct portfolio artifact.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATIONS -->
+    <div class="page" id="page-certs">
+      <div class="page-header">
+        <div class="page-title">Certifications</div>
+        <div class="page-subtitle">Certifications validate your skills to hiring managers who can't see your home lab
+          directly. Choose certifications strategically — prioritize those most recognized by Indian employers and
+          global MSSPs. You don't need all of these; pick two or three that align with your target roles.</div>
+      </div>
+
+      <div class="section-label">Entry Level (Take These First)</div>
+      <div class="cert-card">
+        <div class="cert-icon">🛡️</div>
+        <div>
+          <div class="cert-name">CompTIA Security+</div>
+          <div class="cert-desc">The most universally recognized baseline security certification. Validates foundational
+            security knowledge across domains. Frequently listed as a minimum requirement in SOC job postings globally
+            and in India's MNC segment.</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">📊</div>
+        <div>
+          <div class="cert-name">Splunk Core Certified User</div>
+          <div class="cert-desc">Free study resources available. Validates SPL query skills directly relevant to SOC
+            work. Given Splunk's dominance in enterprise deployments, this is one of the highest-ROI certifications for
+            an L1 analyst candidate.</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🎯</div>
+        <div>
+          <div class="cert-name">Google Cybersecurity Certificate (Coursera)</div>
+          <div class="cert-desc">Low cost, high quality, beginner-friendly. Covers SOC fundamentals, SIEM basics, Python
+            for security, and incident response. A strong starting point before pursuing Security+.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Intermediate (High Value for L1 Roles)</div>
+      <div class="cert-card">
+        <div class="cert-icon">🔬</div>
+        <div>
+          <div class="cert-name">Blue Team Labs Online / TryHackMe SOC Level 1 Path</div>
+          <div class="cert-desc">Completion certificates from BTLO and THM are widely recognized in the community and
+            demonstrate hands-on skills. The THM SOC Level 1 path directly mirrors the L1 analyst job description and is
+            excellent portfolio evidence.</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">☁️</div>
+        <div>
+          <div class="cert-name">SC-200: Microsoft Security Operations Analyst</div>
+          <div class="cert-desc">Validates skills in Microsoft Sentinel, MDE, and Defender XDR — directly tied to the
+            most in-demand cloud SOC platform globally. Highly valued by IT services and consulting firms in Bengaluru.
+          </div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">⚡</div>
+        <div>
+          <div class="cert-name">CompTIA CySA+ (Cybersecurity Analyst)</div>
+          <div class="cert-desc">The most specific certification to the SOC analyst role at the intermediate level.
+            Covers threat intelligence, vulnerability management, incident response, and SIEM usage in a way that aligns
+            precisely with L1-to-L2 career growth.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Advanced (Longer-Term Goals)</div>
+      <div class="cert-card">
+        <div class="cert-icon">🏆</div>
+        <div>
+          <div class="cert-name">CEH (Certified Ethical Hacker) — v13</div>
+          <div class="cert-desc">Well-recognized in India's industry and government sectors. Demonstrates understanding
+            of attacker techniques — making you a better defender. Given your existing SuprMentr ethical hacking
+            background, this is a natural progression.</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🔐</div>
+        <div>
+          <div class="cert-name">GCIA (GIAC Certified Intrusion Analyst)</div>
+          <div class="cert-desc">Prestigious, hands-on, and highly respected. Validates advanced network analysis and
+            intrusion detection skills. Best pursued after 12-18 months of practical experience or lab work.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PORTFOLIO -->
+    <div class="page" id="page-portfolio">
+      <div class="page-header">
+        <div class="page-title">Portfolio & Job Preparation</div>
+        <div class="page-subtitle">Technical skill gets you the interview. Your portfolio gets you the offer. An L1
+          analyst portfolio should demonstrate that you can actually do the job — not just that you studied for it.
+          Here's how to build and present it compellingly.</div>
+      </div>
+
+      <div class="section-label">Portfolio Projects to Build</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Home Lab Write-up (Your Cornerstone Project)</div><span
+            class="badge badge-blue">Portfolio</span>
+        </div>
+        <div class="card-body">Document your home lab architecture with a network diagram, component list, and the
+          reason each tool was chosen. Include screenshots of your SIEM dashboards, alert examples, and a brief
+          explanation of what you detected in each simulation. This single document can anchor every interview
+          conversation.</div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Incident Investigation Reports (3-5 Documented Cases)</div><span
+            class="badge badge-blue">Portfolio</span>
+        </div>
+        <div class="card-body">After completing any advanced lab investigation, write a clean incident report. Over
+          time, assemble five reports covering different attack types (phishing, ransomware, brute-force, insider
+          threat, lateral movement). These reports show you can do the job, not just study it.</div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Custom Detection Rule Library</div><span class="badge badge-blue">Portfolio</span>
+        </div>
+        <div class="card-body">Maintain a GitHub repository of custom detection rules you've written — Sigma rules,
+          Splunk SPL saved searches, Wazuh XML rules, or KQL analytics. Include test cases showing what the rule detects
+          and what it doesn't.</div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">CTF Write-ups (TryHackMe, Hack The Box Blue Team)</div><span
+            class="badge badge-blue">Portfolio</span>
+        </div>
+        <div class="card-body">Write up your approach to blue team CTF challenges in a clear, step-by-step format.
+          Publish these on a personal blog, GitHub, or LinkedIn articles. They demonstrate analytical thinking under
+          structured adversarial conditions — exactly what L1 interviews probe for.</div>
+      </div>
+
+      <div class="section-label">Resume and LinkedIn Checklist</div>
+      <div class="card">
+        <div class="card-body">
+          <ul class="checklist">
+            <li><span class="check-icon">✓</span>Lead every experience bullet with an action verb that quantifies impact
+              ("Monitored 200+ daily alerts," "Reduced false positive rate by 30% through rule tuning")</li>
+            <li><span class="check-icon">✓</span>Name every tool explicitly in your skills section — recruiters search
+              by keyword (Splunk, Wazuh, KQL, Sysmon, Wireshark, MITRE ATT&CK)</li>
+            <li><span class="check-icon">✓</span>Add a "Home Lab" section to your resume with a one-line summary of your
+              lab tier and key tools deployed</li>
+            <li><span class="check-icon">✓</span>Publish at least one technical LinkedIn article on a topic from your
+              lab work — it signals depth beyond certifications</li>
+            <li><span class="check-icon">✓</span>Link your GitHub detection rule library and any BOTS/CTF write-up repos
+              in both resume and LinkedIn</li>
+            <li><span class="check-icon">✓</span>Attend local community events (Null Bengaluru, OWASP Bangalore) and
+              mention them on LinkedIn — community visibility opens referral opportunities that bypass the applicant
+              tracking system</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-label">Interview Preparation</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Technical Interview Topics to Master</div>
+        </div>
+        <div class="card-body">
+          The most common L1 analyst interview questions fall into five categories. For each, you should be able to
+          answer from your own lab experience rather than textbook definitions.
+          <div class="tag-row" style="margin-top:10px">
+            <span class="tool-pill">Log analysis walkthroughs</span>
+            <span class="tool-pill">Alert triage scenarios (true vs false positive)</span>
+            <span class="tool-pill">MITRE ATT&CK technique identification</span>
+            <span class="tool-pill">Incident response process (Identify → Contain → Eradicate → Recover)</span>
+            <span class="tool-pill">Tool-specific SPL/KQL/AQL queries</span>
+            <span class="tool-pill">Network protocol analysis (pcap walkthrough)</span>
+          </div>
+          <div class="outcome-block">Every answer should reference a real lab or project. "In my home lab, when I
+            simulated an SSH brute-force, here's what I saw in Wazuh and here's how I would triage it" is exponentially
+            more compelling than "brute-force means repeated login attempts."</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  function show(id, navEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const page = document.getElementById('page-' + id);
+    if (page) page.classList.add('active');
+    if (navEl) navEl.classList.add('active');
+  }
+</script>
